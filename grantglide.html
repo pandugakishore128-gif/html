@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GrantGlide: ScholarQuest</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#eef1f7;--sf:#fff;--ink:#14213d;--mut:#5b6580;--ln:#d6dbe8;--ac:#f4a300;--acink:#14213d;--ok:#17794f;--okbg:#dff3e9;--wn:#8a5a00;--wnbg:#fff0c9;--er:#b3261e;--erbg:#fde3e0;--hd:#14213d;--hdink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1426;--sf:#172038;--ink:#e8ecf7;--mut:#9aa6c4;--ln:#2a3555;--ok:#6fd4a4;--okbg:#14382b;--wn:#ffd36b;--wnbg:#3d2e08;--er:#ff9a92;--erbg:#40181a;--hd:#080d1a}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "Public Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Georgia,sans-serif;margin:0;line-height:1.15}
+header{background:var(--hd);color:var(--hdink);padding:28px 20px 24px}
+.wrap{max-width:1180px;margin:0 auto}
+header h1{font-size:clamp(28px,5vw,46px);font-weight:800;letter-spacing:-.02em}
+header h1 b{background:var(--ac);color:var(--acink);padding:0 10px;border-radius:6px}
+header p{margin:8px 0 0;max-width:62ch;color:#c4cce0}
+main{display:grid;grid-template-columns:320px 1fr;gap:22px;padding:22px 20px;max-width:1180px;margin:0 auto}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:18px}
+form{position:sticky;top:12px;align-self:start}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
+input,select{width:100%;padding:10px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.btn{background:var(--ac);color:var(--acink);border:0;border-radius:8px;padding:10px 16px;font-weight:600}
+.btn.ghost{background:transparent;border:1px solid var(--ln);color:var(--ink)}
+form .btn{width:100%;margin-top:16px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tab{border:1px solid var(--ln);background:var(--sf);color:var(--ink);padding:8px 16px;border-radius:99px;font-weight:600}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pill{border:1px solid var(--ln);background:var(--sf);color:var(--ink);padding:5px 12px;border-radius:99px;font-size:13px}
+.pill[aria-pressed=true]{background:var(--ac);color:var(--acink);border-color:var(--ac);font-weight:600}
+.summary{margin:0 0 14px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:18px}
+.by{color:var(--mut);font-size:13px}
+.amt{font:800 24px "Bricolage Grotesque",sans-serif}
+.amt small{font:400 12px "Public Sans";color:var(--mut)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--bg);border:1px solid var(--ln)}
+.b-ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.b-wn{background:var(--wnbg);color:var(--wn);border-color:transparent}
+.b-er{background:var(--erbg);color:var(--er);border-color:transparent}
+.cd{font-variant-numeric:tabular-nums;font-weight:600}
+.match{height:6px;background:var(--bg);border-radius:9px;overflow:hidden}
+.match i{display:block;height:100%;background:var(--ok)}
+.card .row:last-child{margin-top:auto}
+dialog{border:0;border-radius:16px;padding:0;max-width:600px;width:calc(100% - 24px);background:var(--sf);color:var(--ink)}
+dialog::backdrop{background:rgba(8,13,26,.6)}
+.dlg{padding:22px;display:grid;gap:12px}
+.docs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.docs li{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--ln);border-radius:10px;padding:8px 12px}
+.bar{height:8px;background:var(--bg);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.board{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px;overflow-x:auto}
+.col{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:12px;min-height:160px}
+.col h3{font-size:16px;margin-bottom:10px}
+.mini{border:1px solid var(--ln);border-radius:10px;padding:10px;margin-bottom:8px;display:grid;gap:6px;background:var(--bg)}
+.mini b{font-size:14px}
+.empty{color:var(--mut);padding:24px;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%}
+#toast.on{opacity:1}
+a{color:inherit;font-weight:600}
+</style></head><body>
+<header><div class="wrap">
+<h1>Grant<b>Glide</b></h1>
+<p>Tell us about yourself once. We show the scholarships you qualify for, how long you have left to apply, and which documents still need work.</p>
+</div></header>
+<main>
+<form id="f" class="panel" aria-label="Student profile">
+<h2>Your profile</h2>
+<label for="gender">Gender</label><select id="gender"><option value="F">Female</option><option value="M">Male</option><option value="O">Other</option></select>
+<label for="state">State of domicile</label><select id="state"></select>
+<label for="caste">Category</label><select id="caste"><option value="SC">SC</option><option value="ST">ST</option><option value="BC">BC / OBC</option><option value="EWS">EWS</option><option value="General">General</option><option value="Minority">Minority</option></select>
+<label for="income">Annual family income (₹ lakh)</label><input id="income" type="number" min="0" step="0.1" required>
+<label for="degree">Degree</label><select id="degree"></select>
+<label for="gpa">Current GPA (out of 10)</label><input id="gpa" type="number" min="0" max="10" step="0.1" required>
+<button class="btn" type="submit">Find my scholarships</button>
+</form>
+<section>
+<div class="tabs" role="tablist"><button class="tab" role="tab" id="t1" aria-selected="true">Matches</button><button class="tab" role="tab" id="t2" aria-selected="false">My applications</button></div>
+<div id="v1"><div class="pills" id="pills"></div><p class="summary" id="sum"></p><div class="grid" id="grid"></div></div>
+<div id="v2" hidden><div id="conf"></div><div class="board" id="board"></div></div>
+</section>
+</main>
+<dialog id="dlg"></dialog><div id="toast" role="status"></div>
+<script>
+const DOC={I:"Income Certificate",C:"Caste Certificate",M:"Marksheets",B:"Bonafide Certificate",D:"Domicile Certificate",K:"Aadhaar-linked Bank Passbook"};
+const EXP={I:1,C:1,D:1};
+const STAGES=["Bookmarked","Applied","Under Review","Awarded"];
+const CATS=["All","Government","Merit-Based","Need-Based","Women in STEM"];
+const REN={Government:"Renewable each year if you pass the previous year and keep attendance above 75%.",def:"Renewable each year while your GPA and income stay within the scheme limits."};
+// name, body, amount, tags, castes, maxIncome(lakh), minGPA, states, female-only, degrees, docs, days left, no-dual-availing group, portal
+const R=[
+["Post-Matric Scholarship for SC","Ministry of Social Justice (NSP)",35000,"Government,Need-Based","SC",2.5,0,"",0,"","IMK",9,"post","https://scholarships.gov.in"],
+["Post-Matric Scholarship for ST","Ministry of Tribal Affairs (NSP)",35000,"Government,Need-Based","ST",2.5,0,"",0,"","IMK",21,"post","https://scholarships.gov.in"],
+["Pragati Scholarship for Girls","AICTE",50000,"Government,Need-Based,Women in STEM","",8,0,"",1,"Engineering,Diploma","IMBK",12,"","https://www.aicte-india.org"],
+["Central Sector Scholarship (CSSS)","Ministry of Education (NSP)",20000,"Government,Merit-Based,Need-Based","",4.5,8,"",0,"","IMK",40,"","https://scholarships.gov.in"],
+["Post-Matric Scholarship for Minorities","Ministry of Minority Affairs (NSP)",30000,"Government,Need-Based","Minority",2,0,"",0,"","IMK",33,"post","https://scholarships.gov.in"],
+["Merit-cum-Means Scholarship","Ministry of Minority Affairs (NSP)",30000,"Government,Merit-Based,Need-Based","Minority",2.5,6.5,"",0,"Engineering,Medicine","IMK",33,"","https://scholarships.gov.in"],
+["ePASS BC Post-Matric Scholarship","Telangana BC Welfare",45000,"Government,Need-Based","BC",2,0,"Telangana",0,"","IMDK",27,"post","https://telanganaepass.cgg.gov.in"],
+["ePASS SC Post-Matric Scholarship","Telangana SC Development",45000,"Government,Need-Based","SC",2.5,0,"Telangana",0,"","IMDK",27,"post","https://telanganaepass.cgg.gov.in"],
+["ePASS ST Post-Matric Scholarship","Telangana Tribal Welfare",45000,"Government,Need-Based","ST",2.5,0,"Telangana",0,"","IMDK",27,"post","https://telanganaepass.cgg.gov.in"],
+["ePASS EBC Scholarship","Telangana Minorities and EBC Welfare",40000,"Government,Need-Based","General,EWS",1,0,"Telangana",0,"","IMDK",27,"post","https://telanganaepass.cgg.gov.in"],
+["Jagananna Vidya Deevena","Government of Andhra Pradesh",50000,"Government,Need-Based","",2.5,0,"Andhra Pradesh",0,"","IMDK",30,"post","https://jnanabhumi.ap.gov.in"],
+["Vidyasiri Scholarship","Karnataka BC Welfare",30000,"Government,Need-Based","BC",2.5,0,"Karnataka",0,"","IMDK",26,"post","https://bcwd.karnataka.gov.in"],
+["Rajarshi Shahu Maharaj Scholarship","Government of Maharashtra",40000,"Government,Need-Based","General,EWS",8,0,"Maharashtra",0,"","IMDK",36,"post","https://mahadbt.maharashtra.gov.in"],
+["PM YASASVI for OBC","Ministry of Social Justice (NSP)",75000,"Government,Need-Based","BC",2.5,0,"",0,"","IMK",19,"post","https://yet.nta.ac.in"],
+["Top Class Education for SC","Ministry of Social Justice",200000,"Government,Merit-Based","SC",8,0,"",0,"Engineering,Medicine","IMBK",44,"","https://scholarships.gov.in"],
+["Reliance Foundation UG Scholarship","Reliance Foundation",200000,"Merit-Based,Need-Based","",15,7,"",0,"","IMBK",18,"","https://www.reliancefoundation.org"],
+["Kotak Kanya Scholarship","Kotak Education Foundation",150000,"Need-Based,Women in STEM","",6,7.5,"",1,"Engineering,Medicine","IMBK",25,"","https://kotakeducation.org"],
+["Santoor Women’s Scholarship","Wipro Consumer Care",24000,"Need-Based","",3,0,"Telangana,Andhra Pradesh,Karnataka",1,"","IMBK",22,"","https://www.buddy4study.com"],
+["HDFC Parivartan ECSS","HDFC Bank",75000,"Need-Based","",2.5,0,"",0,"","IMBK",22,"","https://www.hdfcbankparivartan.com"],
+["Tata Capital Pankh Scholarship","Tata Capital",12000,"Merit-Based,Need-Based","",4,6.5,"",0,"","IMBK",35,"","https://www.buddy4study.com"],
+["L’Oréal India Young Women in Science","L’Oréal India",100000,"Merit-Based,Women in STEM","",0,7.5,"",1,"Engineering,Science,Medicine","MBK",15,"","https://www.foryoungwomeninscience.com"],
+["Aditya Birla Scholarship","Aditya Birla Group",200000,"Merit-Based","",0,8.5,"",0,"Engineering,Management","MBK",45,"","https://www.adityabirla.com"],
+["Sitaram Jindal Foundation Scholarship","Sitaram Jindal Foundation",30000,"Need-Based","",3,6,"",0,"","IMBK",50,"","https://www.sitaramjindalfoundation.org"],
+["Foundation for Excellence Scholarship","Foundation for Excellence",50000,"Merit-Based,Need-Based","",3,8,"",0,"Engineering,Medicine","IMBK",28,"","https://ffe.org"],
+["Mahindra All India Talent Scholarship","Mahindra and Mahindra",10000,"Merit-Based,Need-Based","",2.5,0,"",0,"Diploma","IMBK",31,"","https://www.buddy4study.com"],
+["ONGC Foundation Scholarship","ONGC Foundation",48000,"Merit-Based,Need-Based","SC,ST,BC,General",4.5,6,"",0,"Engineering,Medicine,Management","IMBK",29,"","https://www.ongcscholar.org"],
+["Indian Oil Academic Scholarship","Indian Oil Foundation",36000,"Merit-Based,Need-Based","",2.5,6,"",0,"Engineering,Medicine,Diploma","IMBK",55,"","https://iocl.com"],
+["Lila Poonawalla Foundation Scholarship","Lila Poonawalla Foundation",40000,"Need-Based,Women in STEM","",3,6,"",1,"Engineering,Science,Medicine","IMBK",38,"","https://www.lilapoonawallafoundation.org"],
+["Vidyadhan Scholarship","Sarojini Damodaran Foundation",60000,"Merit-Based,Need-Based","",2,7,"",0,"","IMBK",42,"","https://www.vidyadhan.org"],
+["INSPIRE Scholarship (SHE)","Department of Science and Technology",80000,"Government,Merit-Based","",0,9,"",0,"Science","MBK",60,"","https://online-inspire.gov.in"]
+];
+const base=new Date();base.setHours(23,59,59,0);
+const SC=R.map((r,i)=>{const[c,i2,g,s]=[r[4],r[5],r[6],r[7]];let d=r[10];if(c&&c!=="Minority"&&!d.includes("C"))d+="C";if(s&&!d.includes("D"))d+="D";
+return{id:i,name:r[0],body:r[1],amt:r[2],tags:r[3].split(","),c:c?c.split(","):0,inc:i2,gpa:g,st:s?s.split(","):0,f:r[8],deg:r[9]?r[9].split(","):0,docs:[...d],dl:+base-0+(r[11]-1)*864e5,ex:r[12],url:r[13]}});
+const STATES=["Telangana","Andhra Pradesh","Karnataka","Maharashtra","Tamil Nadu","Other"];
+const DEG=["Engineering","Medicine","Science","Management","Diploma","Arts/Commerce"];
+const $=s=>document.querySelector(s);
+let S={p:{gender:"F",state:"Telangana",caste:"BC",income:1.5,degree:"Engineering",gpa:8.5},apps:{},docs:{I:2,C:1,M:1,B:0,D:1,K:1}},filt="All",M=[];
+try{const x=JSON.parse(localStorage.getItem("gg")||"null");if(x)S=x}catch(e){}
+const save=()=>{try{localStorage.setItem("gg",JSON.stringify(S))}catch(e){}};
+const inr=n=>"₹"+n.toLocaleString("en-IN");
+function fill(sel,arr){$(sel).innerHTML=arr.map(a=>`<option>${a}</option>`).join("")}
+fill("#state",STATES);fill("#degree",DEG);
+function load(){for(const k in S.p)$("#"+k).value=S.p[k]}
+function match(p){return SC.map(s=>{let n=0;
+if(s.c){if(!s.c.includes(p.caste))return 0;n++}
+if(s.inc){if(p.income>s.inc)return 0;n++}
+if(s.gpa&&p.gpa<s.gpa)return 0;if(s.gpa)n++;
+if(s.st){if(!s.st.includes(p.state))return 0;n++}
+if(s.f){if(p.gender!=="F")return 0;n++}
+if(s.deg){if(!s.deg.includes(p.degree))return 0;n++}
+return{...s,score:Math.min(100,55+n*12)}}).filter(Boolean).sort((a,b)=>a.dl-b.dl)}
+function urg(ms){const d=ms/864e5;return d<0?["Closed","b-er"]:d<=7?["Closing soon","b-er"]:d<=21?["Apply this month","b-wn"]:["Open","b-ok"]}
+function cd(ms){if(ms<0)return"Deadline passed";const t=Math.floor(ms/1e3),d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),s=t%60;
+return`${d} days ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")} left`}
+const cdBadge=s=>{const[l,c]=urg(s.dl-Date.now());return`<span class="badge ${c}" data-u="${s.dl}">${l}</span><span class="cd" data-d="${s.dl}">${cd(s.dl-Date.now())}</span>`};
+function render(){
+$("#pills").innerHTML=CATS.map(c=>`<button class="pill" aria-pressed="${c===filt}" data-c="${c}">${c}</button>`).join("");
+const L=M.filter(s=>filt==="All"||s.tags.includes(filt));
+const tot=Math.max(0,...L.map(s=>s.amt));
+$("#sum").textContent=`${L.length} of ${SC.length} schemes match your profile${L.length?`. Highest award: ${inr(tot)} a year.`:". Try another filter or adjust your income and GPA."}`;
+$("#grid").innerHTML=L.length?L.map(s=>{const a=S.apps[s.id];return`<article class="card"><h3>${s.name}</h3><div class="by">${s.body}</div>
+<div class="amt">${inr(s.amt)} <small>per year</small></div>
+<div class="row">${cdBadge(s)}</div>
+<div class="row"><div class="match" style="flex:1" title="Match score"><i style="width:${s.score}%"></i></div><span class="badge">${s.score}% match</span></div>
+<div class="row">${s.tags.map(t=>`<span class="badge">${t}</span>`).join("")}</div>
+<div class="row"><button class="btn" data-o="${s.id}">View details</button><button class="btn ghost" data-b="${s.id}">${a?"Saved: "+a:"Bookmark"}</button></div></article>`}).join(""):`<div class="empty panel">No schemes match this combination yet.</div>`}
+function conflicts(){const g={};Object.keys(S.apps).forEach(id=>{const s=SC[id];if(s.ex&&S.apps[id]!=="Awarded")(g[s.ex]=g[s.ex]||[]).push(s.name)});
+return Object.values(g).filter(a=>a.length>1)}
+function board(){const cf=conflicts();
+$("#conf").innerHTML=cf.map(a=>`<div class="badge b-wn" style="display:block;margin-bottom:12px;padding:10px 14px;border-radius:10px">Policy conflict: ${a.join(", ")} cannot be availed together. Pick one before applying.</div>`).join("");
+$("#board").innerHTML=STAGES.map(st=>{const L=Object.keys(S.apps).filter(id=>S.apps[id]===st).map(id=>SC[id]);
+return`<div class="col"><h3>${st} (${L.length})</h3>${L.length?L.map(s=>`<div class="mini"><b>${s.name}</b><div class="row">${cdBadge(s)}</div>
+<select data-s="${s.id}" aria-label="Move ${s.name}">${STAGES.map(x=>`<option ${x===st?"selected":""}>${x}</option>`).join("")}<option value="">Remove</option></select>
+<button class="btn ghost" data-o="${s.id}">Documents</button></div>`).join(""):`<div class="empty">Nothing here yet.</div>`}</div>`}).join("")}
+function setApp(id,st){const s=SC[id];
+if(!st)delete S.apps[id];else S.apps[id]=st;save();
+if(st&&s.ex&&conflicts().length)toast("Policy conflict: you have two schemes that cannot be availed together.");
+render();board()}
+function openD(id){const s=SC[id];const ds=s.docs.map(k=>S.docs[k]||0);const ready=ds.filter(x=>x===1).length;
+const lab=["Missing","Ready","Needs renewal"],cls=["b-er","b-ok","b-wn"];
+const a=S.apps[id];
+$("#dlg").innerHTML=`<div class="dlg"><div class="row" style="justify-content:space-between"><h2>${s.name}</h2><button class="btn ghost" data-x aria-label="Close">Close</button></div>
+<div class="by">${s.body}</div>
+<div class="amt">${inr(s.amt)} <small>per year</small></div>
+<div class="row">${cdBadge(s)}</div>
+<p style="margin:0"><b>Who qualifies:</b> ${[s.c&&"Category "+s.c.join("/"),s.inc&&"income up to ₹"+s.inc+" lakh",s.gpa&&"GPA "+s.gpa+"+",s.st&&s.st.join("/")+" domicile",s.f&&"women only",s.deg&&s.deg.join("/")].filter(Boolean).join(", ")||"Any student"}.</p>
+<p style="margin:0"><b>Renewal:</b> ${s.tags.includes("Government")?REN.Government:REN.def}</p>
+${s.ex?`<div class="badge b-wn">Cannot be combined with other post-matric government schemes.</div>`:""}
+<h3>Document checklist: ${ready}/${s.docs.length} ready</h3><div class="bar"><i style="width:${ready/s.docs.length*100}%"></i></div>
+<ul class="docs">${s.docs.map(k=>{const v=S.docs[k]||0;return`<li><span>${DOC[k]}${EXP[k]&&v===2?"<br><small>Expires within 30 days. Renew at the local revenue office (Mee Seva).</small>":""}</span><button class="badge ${cls[v]}" data-k="${k}" data-sc="${id}">${lab[v]}</button></li>`}).join("")}</ul>
+<small class="by">Tap a status to cycle it: Missing, Ready, Needs renewal.</small>
+<div class="row"><a class="btn" style="text-decoration:none" href="${s.url}" target="_blank" rel="noopener">Official portal</a>
+<select data-s="${id}" style="width:auto"><option value="">${a?"Remove from tracker":"Add to tracker"}</option>${STAGES.map(x=>`<option ${x===a?"selected":""}>${x}</option>`).join("")}</select></div></div>`;
+if(!$("#dlg").open)$("#dlg").showModal()}
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),3500)}
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const D=t.dataset;
+if(D.c){filt=D.c;render()}
+else if(D.o!==undefined){openD(+D.o)}
+else if(D.b!==undefined){setApp(+D.b,S.apps[D.b]?"":"Bookmarked")}
+else if(D.k){S.docs[D.k]=((S.docs[D.k]||0)+1)%3;save();openD(+D.sc)}
+else if("x"in D){$("#dlg").close()}
+else if(t.id==="t1"||t.id==="t2"){const one=t.id==="t1";$("#t1").ariaSelected=one;$("#t2").ariaSelected=!one;$("#v1").hidden=!one;$("#v2").hidden=one;board()}});
+document.addEventListener("change",e=>{const id=e.target.dataset.s;if(id!==undefined){setApp(+id,e.target.value);if($("#dlg").open)openD(+id)}});
+$("#f").addEventListener("submit",e=>{e.preventDefault();S.p={gender:$("#gender").value,state:$("#state").value,caste:$("#caste").value,income:+$("#income").value,degree:$("#degree").value,gpa:+$("#gpa").value};save();M=match(S.p);render()});
+setInterval(()=>{document.querySelectorAll("[data-d]").forEach(n=>{n.textContent=cd(n.dataset.d-Date.now())})},1000);
+load();M=match(S.p);render();board();
+</script></body></html>
